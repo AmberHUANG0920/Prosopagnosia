@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>臉盲症體驗互動</title>
+  <style>
+    :root {
+      --color-pink-start: #ff9a9e;
+      --color-pink-end: #fad0c4;
+      --color-blue-start: #aad4ff;
+      --color-blue-end: #bddbf3;
+      --color-yellow-start: #fff8dc;
+      --color-yellow-end: #fefcea;
+      --font-base: "Noto Sans TC", sans-serif;
+      --header-height: 4rem;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      height: 100%; margin: 0; padding: 0;
+      font-family: var(--font-base);
+      background: #f8f8f8;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+    }
+    header {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: var(--header-height);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(5px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1rem; z-index: 100;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    header h1 { font-size: 1rem; margin: 0; color: #333; }
+    nav {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    nav a {
+      color: #555; text-decoration: none;
+      font-size: 0.85rem; padding: 0.25rem;
+    }
+    nav a:hover { color: #000; }
+    main > section {
+      height: calc(100vh - var(--header-height));
+      scroll-snap-align: start;
+      scroll-margin-top: var(--header-height);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+    /* 通用卡片風格（除互動區外） */
+    .section-content {
+      width: 100%; max-width: 600px;
+      background: white; border-radius: 12px;
+      padding: 2rem; margin: auto;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    /* 背景色 */
+    #hero { background: linear-gradient(135deg, var(--color-pink-start), var(--color-pink-end)); }
+    #story-childhood { background: linear-gradient(135deg, var(--color-blue-start), var(--color-blue-end)); }
+    #story-emotion { background: linear-gradient(135deg, var(--color-yellow-start), var(--color-yellow-end)); }
+    #story-role { background: linear-gradient(135deg, var(--color-pink-end), var(--color-pink-start)); }
+    #story-performance { background: linear-gradient(135deg, var(--color-blue-end), var(--color-blue-start)); }
+    #interactive { background: linear-gradient(135deg, var(--color-yellow-end), var(--color-yellow-start)); }
+    #resources { background: linear-gradient(135deg, var(--color-pink-start), var(--color-blue-start)); }
+    h2 { margin: 0.5rem 0; color: #333; }
+    p { color: #555; line-height: 1.6; margin: 0.5rem 0 1.5rem; }
+    button {
+      font-size: 1rem; background: linear-gradient(135deg, var(--color-pink-start), var(--color-blue-start));
+      color: white; border: none; padding: 0.75rem 1.5rem;
+      border-radius: 8px; cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    button:hover { transform: translateY(-2px); }
+    footer {
+      text-align: center; padding: 1rem; font-size: 0.85rem;
+      color: #888;
+    }
+    /* 互動區專屬樣式 */
+    #interactive {
+      justify-content: center;
+    }
+    #interactive h2 {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .interactive-modules {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    /*區塊1-童年樣式*/
+    .face-module {
+        margin: 2rem auto;
+        max-width: 360px;
+        text-align: center;
+        }
+        .faces {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        }
+        .pixel-canvas {
+        width: 45%;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        /* 提問文字與選項 */
+        .question p {
+        margin: 1rem 0 0.5rem;
+        font-weight: 500;
+        }
+        .question label {
+        margin: 0 0.5rem;
+        cursor: pointer;
+        }
+        /* 按鈕 */
+        #revealBtn {
+        margin-top: 1rem;
+        }
+        /* 回饋文字 */
+        .feedback {
+        margin-top: 0.75rem;
+        font-weight: 600;
+        color: #333;
+        }
+
+        .face-module {
+        margin: 2rem auto;
+        text-align: center;
+        }
+
+        .face-module .pixel-img {
+        flex: none;                  /* 取消 flex 平分 */
+        width: calc(100% - 0.5rem);   /* 各占 50% 减去间隙 */
+        max-width: none; 
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+        }
+
+        /* 讓 story-text 保有白底卡片樣式 */
+        .story-text.section-content {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        padding: 2rem 1rem;
+        max-width:1200px;
+        margin: 1.5rem auto;
+        text-align: left;
+        line-height: 1.6;
+        color: #3a3a3a;
+        }
+
+        /* 只針對「童年」這節的白底容器放寬寬度 */
+        #story-childhood > .section-content {
+        max-width: none !important;  /* 取消 600px 限制 */
+        width: 90vw !important;      /* 卡片寬度撐滿 90% 視窗 */
+        margin: 2rem auto;
+        padding: 2rem 1rem;
+        }
+
+        /* 童年故事節：section 本身仍然 snap */
+        #story-childhood-text {
+        height: calc(100vh - var(--header-height)) !important;
+        scroll-snap-align: start !important;
+        overflow: hidden !important;    /* 不讓整頁多滾 */
+        }
+
+        /* 讓裡面的 .section-content 滾動才顯示全文 */
+        #story-childhood-text .section-content {
+        height: 100%;                   /* 撐滿整個 section */
+        overflow-y: auto;               /* 內層自己捲 */
+        overscroll-behavior: contain;   /* 滾動不會冒泡到外層 */
+        padding-right: 1rem;            /* 避免內捲軸遮文字 */
+        }
+        .expression-compare {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;  /* 手機可換行 */
+        }
+
+        .expression-img {
+        width: 160px;
+        height: auto;
+        border-radius: 8px;
+        object-fit: cover;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .expression-caption {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+        margin-top: 0.5rem;
+        }
+
+        #tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 1rem;
+        }
+
+        .tag {
+        background: #ffdce0;
+        color: #c0392b;
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+        .tag:hover {
+        transform: scale(1.1);
+        }
+        .tag.faded {
+        opacity: 0;
+        pointer-events: none;
+        }
+
+        #pressure-bar-container {
+        width: 100%;
+        height: 20px;
+        background: #eee;
+        border-radius: 10px;
+        margin: 1rem 0;
+        overflow: hidden;
+        }
+
+        #pressure-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(to right, #aad4ff, #ff9a9e);
+        transition: width 0.3s ease;
+        }
+
+        #social-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        }
+
+        .stress-btn {
+        padding: 0.5rem 1rem;
+        background: #ffe6ea;
+        border: 1px solid #ffa1b5;
+        color: #c0392b;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.2s ease;
+        }
+        .stress-btn:hover {
+        transform: scale(1.05);
+        }
+
+        .stress-btn.active {
+        background-color: #ff9a9e;
+        color: white;
+        box-shadow: 0 0 10px #ff9a9e;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .flip-card-front {
+            background: #ffe0e5;
+            color: #c0392b;
+        }
+
+        .flip-card-back {
+            background: #e0f3ff;
+            color: #2c3e50;
+            transform: rotateY(180deg);
+        }
+
+        #flip-card-section .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.2rem;
+        width: 100%;       /* 滿版寬度 */
+        max-width: 100%;   /* 不超過父容器 */
+        margin: 0 auto;
+        box-sizing: border-box;
+        padding: 0 1rem;   /* 兩側留點空間，看起來不會貼邊 */
+        }
+        /* 只針對翻牌區塊放寬 section-content */
+        #flip-card-section .section-content {
+        max-width: 1000px;      /* 原本 600px → 1000px */
+        width: 90%;             /* 保持 90% 但不要超過上面那個 max-width */
+        margin: 2rem auto;      /* 可以微調上下間距 */
+        }
+        /* 卡片間隔拉大 */
+        #flip-card-section .card-grid {
+        gap: 2rem;
+        }
+
+        /* 每張卡片最小尺寸放大 */
+        #flip-card-section .flip-card {
+        width: 240px;           /* 原本自適應，這裡設定固定寬 */
+        height: 160px;          /* 也可以設定固定高 */
+        }
+
+        #flip-card-section {
+        height: auto !important;
+        min-height: calc(100vh - var(--header-height));
+        /* 如果你不想要最小高度，也可以把上一行改成 min-height: auto; */
+        padding-bottom: 2rem;  /* 如果下方還是貼不到底，加一點內距 */
+        }
+
+        /* ───────────────────────────────────── */
+        /* 針對「童年故事」這一節取消固定高度 */
+        /* ───────────────────────────────────── */
+        #story-childhood-text {
+        /* 取消原本的 100vh 限制，讓它隨內容撐開 */
+        height: auto !important;
+        /* 保留 snap 進場定位 */
+        scroll-snap-align: start;
+        /* 保證進場時頂端不被 header 擋住 */
+        scroll-margin-top: var(--header-height);
+        }
+
+        /* 如果想讓除了這一節之外，都維持滿屏高度，可以再加： */
+        main > section:not(#story-childhood-text) {
+        height: calc(100vh - var(--header-height));
+        }
+
+    @media (max-width: 768px) {
+      header { height: 3.5rem; }
+      main > section { height: calc(100vh - 3.5rem); }
+      .section-content { padding: 1.5rem; width: 90%; }
+      h2 { font-size: 1.25rem; }
+      button { width: 100%; }
+
+        header {
+        flex-direction: column;  
+        align-items: center;      
+        height: auto;               
+        padding: 0.5rem 1rem;        
+        }
+        header h1 {
+            margin: 0.25rem 0;          
+            font-size: 1.1rem;           
+        }
+        nav {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;             
+            justify-content: center;     
+            gap: 0.4rem;                 
+        }
+        nav a {
+            font-size: 0.9rem;           
+            padding: 0.25rem 0.5rem;      
+        }
+        .face-module .faces {
+            flex-direction: row;     /* 直列排列 */
+            gap: 1rem;                  /* 拉大上下间距 */
+        }
+        .face-module .pixel-img {
+            width: 40%;                 /* 宽度占父层 90% */
+            max-width: none;            /* 取消任何上限 */
+        }
+        .card-grid {
+        grid-template-columns: 1fr;
+        }
+        #flip-card-section .card-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem; /* 手機維持左右邊距 */
+        }
+          #flip-card-section {
+        height: auto !important;
+        min-height: auto;
+        padding-bottom: 2rem;
+        }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>臉盲症體驗互動</h1>
+    <nav>
+      <a href="#story-childhood-text">故事</a>
+      <a href="#story-emotion">人臉</a>
+      <a href="#story-role">標籤</a>
+      <a href="#story-performance">壓力</a>
+      <a href="#flip-card-section">誤解</a>
+      <a href="#posttest">問卷</a>
+    </nav>
+  </header>
+  <main>
+    <section id="hero">
+      <div class="section-content">
+        <h2>體驗臉盲者的世界</h2>
+        <p>從小自閉又無法認人的我，臉盲帶來的孤獨與誤解…</p>
+        <button onclick="scrollToSection('story-childhood-text')">開始閱讀</button>
+      </div>
+    </section>
+<!-- 童年 -->
+    <!-- 故事文字區塊 -->
+    <section id="story-childhood-text">
+    <div class="section-content story-text">
+        <h2>童年的一個小故事</h2>
+        <p>當我看著一張臉，彷彿總隔著一層霧。輪廓、五官、神情──它們並非不存在，而是浮動而模糊，難以被心智鎖定。即使盯著一個人看上好幾分鐘，
+            我的腦袋也無法像他人那樣，把那張臉「記起來」。彷彿我不是透過視覺去認人，而是透過聲音、動作、穿著、甚至氣味這些非臉部特徵，去拼湊出「這個人是誰」。<p>
+        <p>我的臉盲症從小就很嚴重。記得國小那年，一個看起來很親切的叔叔來學校接我放學。他笑著招手，我也不疑有他，就這樣一路和他走回家。</p>
+        <p>直到站在家門口時，我才有點疑惑地問：「叔叔，你是要找我爸爸嗎？」</p>
+        </p>叔叔才開口說：你也太誇張，我只是換了髮型而已</p>
+        </p>那一瞬間，我的腦袋像當機了一樣。我完全無法把眼前這張臉，跟我熟悉的爸爸連在一起。就只是換了一個髮型，他對我而言就變成了另一個人。</p>
+        </p>這不是第一次，也不是最後一次。對我來說，人臉的變化太細微，也太容易改變──一頂帽子、一副眼鏡、一點鬍渣，都足以讓一張臉「失去身份」。</p>
+        </p>這樣的經驗讓我從小就對認人感到焦慮。我總害怕會錯意、叫錯名字，或是沒認出其實很在乎我的人。我不是故意冷淡或忽略誰，只是我的大腦，無法像大多數人那樣，把臉當作辨識的依據。</p>
+        <p>當然從小到大有過無數次的社死現場，每次沒有釀成尷尬氛圍都是靠自己的演技來救場，或許也因為這樣，我才當了演員。</p>
+        <h2>接下來，看看我的世界吧.....</h2>
+    </div>
+    </section>
+    
+    <section id="story-childhood">
+    <!-- 互動模組 A：人臉打薄碼 -->
+    <div id="module-face-pixelate" class="face-module">
+      <div class="faces">
+        <img
+          id="face1"
+          src="images/face1_blur.png"
+          data-blur="images/face1_blur.png"
+          data-clear="images/face1.png"
+          alt="臉孔 1"
+          class="pixel-img"
+        >
+        <img
+          id="face2"
+          src="images/face2_blur.png"
+          data-blur="images/face2_blur.png"
+          data-clear="images/face2.png"
+          alt="臉孔 2"
+          class="pixel-img"
+        >
+      </div>
+      <div class="question">
+        <p>你覺得這兩張圖是同一個人嗎？</p>
+        <label><input type="radio" name="same" value="yes">是</label>
+        <label><input type="radio" name="same" value="no">否</label>
+      </div>
+      <button id="revealBtn">長按看清原圖</button>
+      <div id="feedback" class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+    <section id="story-emotion">
+        <section id="story-childhood-text">
+        <div class="section-content story-text">
+            <h2>表情對我來說，只是皺紋的改變</h2>
+            <p>我一直都看不太懂別人的臉。別人輕輕皺一下眉、嘴角微微下垂，這些對我來說只是臉上紋路的變化，看不出來背後藏著什麼情緒。</p>
+            <p>很多時候，我只能依靠語氣去判斷對方是在生氣還是開心，可是大人們的語氣都很平，特別是職場上，情緒常常被壓得死死的。結果就是，我老是踩到別人的線，卻完全不知道自己做錯了什麼。</p>
+            <p>朋友可能還會回頭問我一句：「你怎麼了？幹嘛不理我？」但更常遇到的，是那些什麼都沒說，卻在心裡默默給我貼上標籤的人──說我假裝熱情、不真誠，甚至說我演得很像。其實，我只是不知道那張臉現在是什麼意思，更不知道那個人是誰。</p>
+            <p>最痛苦的不是看不懂別人的表情，而是這個世界從來沒想過，有人就是看不懂。</p>
+        </div>
+        </section>
+                <!-- 插入圖片對照 -->
+            <div class="expression-compare">
+                <img src="images/face2.png" alt="表情一" class="expression-img">
+                <img src="images/face2_angry.png" alt="表情二" class="expression-img">
+            </div>
+            <p style="text-align: center; font-style: italic; color: #666;">
+            對我來說，這兩張是一樣的。
+            </p>
+    </section>
+
+    <section id="story-role">
+        <div class="section-content">
+            <h2>為什麼都不跟我打招呼？</h2>
+            <p>點選標籤幫我撕掉(小提示 可以努力多點幾次)</p>
+            <div id="tag-cloud">
+            <!-- <span class="tag">冷淡</span> -->
+            </div>
+            <p id="real-message" style="display:none; font-style: italic; color: #444; text-align: center; margin-top: 1.5rem;">
+            我不是不在意，我真的只是認不得你，但有些標籤，永遠都在那.....
+            </p>
+        </div>
+    </section>
+
+    <section id="story-performance">
+        <div class="section-content">
+            <h2>社交，演算法式生活</h2>
+            <p>刻意練習點頭、微笑，壓力不斷累積…</p>
+            <p>點選亮起來的事件來與人互動</p>
+                <div style="text-align: center; margin-bottom: 1rem;">
+                <button id="start-interaction" class="stress-btn" style="background: #aad4ff; color: #fff;">
+                    開始互動
+                </button>
+                </div>
+            <div id="pressure-bar-container">
+            <div id="pressure-bar"></div>
+            </div>
+
+            <div id="social-options">
+            <button class="stress-btn">點頭</button>
+            <button class="stress-btn">微笑</button>
+            <button class="stress-btn">眼神接觸</button>
+            <button class="stress-btn">現在要講話嗎？</button>
+            </div>
+
+            <p id="fail-message" style="display:none; color: #b30000; text-align: center; margin-top: 1rem;">
+            你又得罪人了……
+            </p>
+            <p id="stress-message" style="display:none; font-style: italic; color: #c0392b; text-align: center; margin-top: 1rem;">
+            因為認不得人我常常用逃避、快速打招呼、套話等方式來掩蓋自己，但還是很容易不小心得罪人
+            </p>
+        </div>
+    </section>
+
+    <section id="flip-card-section">
+        <div class="section-content">
+        <h2 style="text-align:center; margin-bottom:1rem;">常見誤解 × 真實澄清</h2>
+        <div class="card-grid">
+            <!-- 卡片 1 -->
+            <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">是不是因為你記性不好？</div>
+                <div class="flip-card-back">不是的，我可以記住聲音、衣服甚至氣味，但臉對我來說像隨機圖案，記不住。</div>
+            </div>
+            </div>
+            <!-- 卡片 2 -->
+            <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">看久一點不就記住了？</div>
+                <div class="flip-card-back">我可以盯著一張臉看很久，還是不知道那是誰。看久不等於能辨認。</div>
+            </div>
+            </div>
+            <!-- 卡片 3 -->
+            <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">怎麼連家人都不認得？</div>
+                <div class="flip-card-back">真的會這樣。有人換髮型、換眼鏡、穿不一樣，我可能就認不出來。</div>
+            </div>
+            </div>
+            <!-- 卡片 4 -->
+            <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">掛名牌就好了吧？</div>
+                <div class="flip-card-back">名字幫得了我記住身份，但記住名字和認臉，是兩回事。</div>
+            </div>
+            </div>
+            <!-- 卡片 5 -->
+            <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">這不是病吧？只是比較不會認人</div>
+                <div class="flip-card-back">這是一種神經認知差異，當我知道有這個病名時，我終於放過自己。</div>
+            </div>
+            </div>
+
+            <!-- 卡片 6 -->
+            <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">你是不是太冷淡、沒誠意？</div>
+                <div class="flip-card-back">我不是不在意，而是我看不出你是誰。有時我很努力演出反應，只為避免傷人。</div>
+            </div>
+            </div>
+           </div> 
+        </div>
+    </section>
+
+    <section id="closing-message" class="section-content" style="margin-bottom:2rem;">
+            <h2>如果你看到這裡，謝謝你</h2>
+            <p>
+                其實，臉盲症並不是什麼了不起的大事，我們也不是在尋求特別的對待。<br>
+                只是希望，這個世界能多一點理解與空間，給那些真的有臉盲困擾的人。
+            </p>
+            <p>
+                在國外，臉盲症（Prosopagnosia）是能被正式診斷的神經認知差異，有些人甚至能拿到醫療證明。但在台灣，大多數人對這個詞仍感到陌生，甚至有時會被當成玩笑或誇張的自嘲。
+            </p>
+            <p>
+                我們希望透過這段體驗，讓你認識真正的臉盲症。<br>
+                下次當有人說「我真的有臉盲症」時，請不要立刻懷疑他是不是只是沒把你放在心上，也許，他真的只是努力了很多次，卻還是記不得你的臉。
+            </p>
+            <p style="font-weight: 600;">臉盲不是冷漠，而是一種看不見的障礙。希望你願意，給我們一點點包容。</p>
+            </section>
+
+        <section id="posttest">
+        <div class="section-content">
+            <h2>感謝您的參與，最後再幫我做個問卷！</h2>
+            <!-- 新增這行 -->
+            <button class="survey-btn" onclick="location.href='posttest.html'">
+            填寫問卷&nbsp;&rarr;
+            </button>
+        </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 臉盲症體驗互動</p>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+        // 確認有 code，否則跳回前測
+    // const code = localStorage.getItem("participantCode");
+    // if (!code) {
+    //     alert("請先完成前測！");
+    //     location.href = "pretest.html";
+    // }
+
+    (async function(){
+//童年區塊
+    const btn = document.getElementById('revealBtn');
+    const imgs = [
+    document.getElementById('face1'),
+    document.getElementById('face2')
+    ];
+
+    // 按下（開始長按）→ 換成清晰圖
+    btn.addEventListener('pointerdown', () => {
+    imgs.forEach(img => {
+        img.src = img.dataset.clear;
+    });
+    });
+
+    // 放開或游標移出按鈕 → 還原模糊圖
+    const upHandler = () => {
+    imgs.forEach(img => {
+        img.src = img.dataset.blur;
+    });
+    };
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev =>
+        btn.addEventListener(ev, upHandler)
+        );
+    // 4. 選項回饋
+    document.querySelectorAll('input[name="same"]').forEach(r => {
+        r.addEventListener('change', e => {
+        const ans = e.target.value === 'yes' ? '正確！' : '錯誤！';
+        document.getElementById('feedback').textContent =
+            ans + ' 對臉盲者來說，每一次看都像第一次。';
+        });
+    });
+    })();
+
+    //標籤段落互動
+        const tagWords = ["冷淡", "不敬業", "自我中心", "怪人", "沒禮貌", "裝熟", "太做作", "距離感", "難相處", "不真誠"];
+        let clickCount = 0;
+        const tagCloud = document.getElementById("tag-cloud");
+        const message = document.getElementById("real-message");
+
+        function createTag(word) {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = word;
+
+        span.addEventListener("click", () => {
+            // 淡出
+            span.classList.add("faded");
+
+            // 等動畫結束後移除元素（300ms 對應 CSS）
+            setTimeout(() => {
+            tagCloud.removeChild(span);
+            }, 300);
+
+            clickCount++;
+
+            if (clickCount >= 10) {
+            message.style.display = "block";
+            } else {
+            // 1秒後補回一個新詞
+            setTimeout(() => {
+                const newWord = tagWords[Math.floor(Math.random() * tagWords.length)];
+                createTag(newWord);
+            }, 1000);
+            }
+        });
+
+        tagCloud.appendChild(span);
+        }
+
+        // 初始放入 6 個標籤
+        for (let i = 0; i < 6; i++) {
+        createTag(tagWords[i]);
+        }
+
+
+        // 點擊邏輯
+let pressure = 0;
+const bar = document.getElementById("pressure-bar");
+const stressMessage = document.getElementById("stress-message");
+const failMessage = document.getElementById("fail-message");
+const buttons = document.querySelectorAll(".stress-btn");
+const startButton = document.getElementById("start-interaction");
+
+let currentTarget = null;
+let timer = null;
+
+// 點擊邏輯：有亮的才是正確目標
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // 忽略未啟動階段
+    if (!currentTarget || pressure >= 100) return;
+
+    if (btn === currentTarget) {
+      pressure += 10;
+      failMessage.style.display = "none"; // 點對隱藏警語
+    } else {
+      pressure += 5;
+      failMessage.style.display = "block"; // 點錯出現警語
+    }
+
+    if (pressure >= 100) {
+      pressure = 100;
+      stressMessage.style.display = "block";
+      clearInterval(timer);
+    }
+
+    bar.style.width = pressure + "%";
+
+    // 移除目前的高亮
+    currentTarget.classList.remove("active");
+    currentTarget = null;
+  });
+});
+
+// 啟動互動：每 2 秒出現一個反應提示
+    function startHighlightLoop() {
+    timer = setInterval(() => {
+        // 上一個沒被點中視為錯過
+        if (currentTarget) {
+        failMessage.style.display = "block";
+        pressure += 5;
+
+        if (pressure >= 100) {
+            pressure = 100;
+            stressMessage.style.display = "block";
+            clearInterval(timer);
+            return;
+        }
+
+        bar.style.width = pressure + "%";
+        currentTarget.classList.remove("active");
+        currentTarget = null;
+        }
+
+        // 隨機高亮一個按鈕
+        const randomBtn = buttons[Math.floor(Math.random() * buttons.length)];
+        randomBtn.classList.add("active");
+        currentTarget = randomBtn;
+    }, 500);
+    }
+
+    // 點擊開始按鈕才會啟動互動
+    startButton.addEventListener("click", () => {
+    startHighlightLoop();
+    startButton.disabled = true;
+    startButton.textContent = "互動進行中…";
+    });
+
+
+    document.getElementById("toPosttest")
+        .addEventListener("click", () => location.href = "posttest.html");
+  </script>
+</body>
+</html>

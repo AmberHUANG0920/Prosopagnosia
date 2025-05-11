@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>臉盲症推廣研究</title>
+  <style>
+    /* 全域 */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #aad4ff 100%);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* 容器 */
+    .container {
+      max-width: 720px;
+      margin: 10vh auto;
+      background: rgba(255,255,255,0.9);
+      padding: 48px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease-out;
+    }
+    .container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 24px;
+      color: #2a2a2a;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      color: #4a4a4a;
+    }
+    button {
+      font-size: 18px;
+      background: linear-gradient(135deg, #ff9a9e, #aad4ff);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      /* box-shadow: 0 4px 12px rgba(0,0,0,0.1); */
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+@media (max-width: 600px) {
+  /* 恢復 body 為普通流排版 */
+  body {
+    scroll-behavior: smooth;
+    background: linear-gradient(135deg, #ff9a9e 0%, #aad4ff 100%);
+  }
+
+  /* Container：上下左右都有 margin */
+  .container {
+    margin: 10vh 16px;      /* 上方 10vh、左右 16px、下方 10vh */
+    padding: 32px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+    /* 直接顯示，取消動畫 */
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container reveal">
+    <h1>臉盲症推廣與認知研究</h1>
+      <p>
+        歡迎參與本研究！<br>
+        本研究旨在了解社會大眾對臉盲症（Prosopagnosia）的認識與態度。<br><br>
+
+        • <strong>第一階段：前測問卷</strong><br>
+        &emsp;請填寫一份短問卷，評估您對臉盲症的基礎知識與既有印象（約 2 分鐘）。<br><br>
+
+        • <strong>第二階段：互動式體驗</strong><br>
+        &emsp;完成前測後，將引導您觀看並體驗一段真實個案故事，並透過互動模擬，深入理解臉盲症者的日常挑戰（約 2–3 分鐘）。<br><br>
+
+        • <strong>第三階段：後測問卷</strong><br>
+        &emsp;互動結束後，請再次回答一份問卷，比較參與前後的認知與態度變化（約 2 分鐘）。<br><br>
+
+        全程匿名填寫，資料僅作為學術統計使用，不會蒐集個人身份資訊。<br><br>
+
+        點擊下方按鈕即表示您已了解相關說明並同意參與，謝謝您的寶貴時間！
+      </p>
+    <button onclick="location.href='pretest.html'">我了解，開始參與</button>
+  </div>
+
+  <script>
+    // Scroll Reveal using IntersectionObserver
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.3
+      });
+
+      document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>臉盲症後測問卷</title>
+
+</head>
+<body>
+  <div class="container">
+    <h1>臉盲症後測問卷</h1>
+    <form id="posttestForm">
+    <!-- 隱藏識別欄位 -->
+    <input type="hidden" name="participantCode" id="codeInput" />
+
+      <label class="option-label">你現在認為臉盲症主要影響什麼？</label>
+      <div class="radio-group">
+        <label class="option-label"><input type="radio" name="Q1" value="視力清晰度"> 視力清晰度</label>
+        <label class="option-label"><input type="radio" name="Q1" value="面部辨識能力"> 面部辨識能力</label>
+        <label class="option-label"><input type="radio" name="Q1" value="語言理解能力"> 語言理解能力</label>
+        <label class="option-label"><input type="radio" name="Q1" value="短期記憶力"> 短期記憶力</label>
+      </div>
+
+      <label class="option-label">你現在覺得臉盲症能透過記臉部特徵來彌補嗎？</label>
+      <div class="radio-group">
+        <label class="option-label"><input type="radio" name="Q2" value="是"> 是</label>
+        <label class="option-label"><input type="radio" name="Q2" value="否"> 否</label>
+        <label class="option-label"><input type="radio" name="Q2" value="有些人有效"> 有些人有效</label>
+        <label class="option-label"><input type="radio" name="Q2" value="不知道"> 不知道</label>
+      </div>
+
+      <label class="option-label">你現在是否相信「有可能認不得自己的父母」？</label>
+      <div class="radio-group">
+        <label class="option-label"><input type="radio" name="Q3" value="不可能"> 不可能</label>
+        <label class="option-label"><input type="radio" name="Q3" value="可能是記性差"> 可能是記性差</label>
+       <label class="option-label"><input type="radio" name="Q3" value="有可能"> 有可能</label>
+        <label class="option-label"><input type="radio" name="Q3" value="我不確定"> 我不確定</label>
+      </div>
+
+      <label class="option-label">以下哪些說法你曾經相信，但現在改變了想法？（複選）</label>
+      <div class="checkbox-group">
+        <label class="option-label"><input type="checkbox" name="Q4" value="藉口"> 臉盲是藉口，不想記人</label>
+        <label class="option-label"><input type="checkbox" name="Q4" value="冷漠"> 臉盲的人太冷漠</label>
+        <label class="option-label"><input type="checkbox" name="Q4" value="視力不好"> 臉盲是視力不好</label>
+        <label class="option-label"><input type="checkbox" name="Q4" value="多看幾次就好"> 多看幾次就會好</label>
+        <label class="option-label"><input type="checkbox" name="Q4" value="認知障礙"> 臉盲是一種認知障礙</label>
+        <label class="option-label"><input type="checkbox" name="Q4" value="被當玩笑"> 常被當玩笑的個性描述</label>
+      </div>
+
+      <label class="option-label">	你現在覺得臉盲者最可能依賴哪些方式來認人？（複選）</label>
+      <div class="checkbox-group">
+        <label class="option-label"><input type="checkbox" name="Q5" value="聲音"> 聲音</label>
+        <label class="option-label"><input type="checkbox" name="Q5" value="髮型"> 髮型</label>
+        <label class="option-label"><input type="checkbox" name="Q5" value="衣著"> 衣著</label>
+        <label class="option-label"><input type="checkbox" name="Q5" value="走路姿勢"> 走路姿勢</label>
+        <label class="option-label"><input type="checkbox" name="Q5" value="表情細節"> 表情細節</label>
+      </div>
+
+      <label class="option-label">若現在聽到「我有臉盲症」，你的第一反應是？</label>
+      <div class="radio-group vertical-radio-group">
+        <label class="option-label"><input type="radio" name="Q6" value="真的假的，這樣生活不會很困難嗎？"> 真假的，這樣生活不會很困難嗎？</label> <!--好奇 -->
+        <label class="option-label"><input type="radio" name="Q6" value="是不是你根本沒在記人啊？"> 是不是你根本沒在記人啊？</label> <!--否定 -->
+        <label class="option-label"><input type="radio" name="Q6" value="這是一種病嗎？我沒聽過耶"> 這是一種病嗎？我沒聽過耶</label> <!--無知 -->
+        <label class="option-label"><input type="radio" name="Q6" value="我其實也有點記不得臉耶～"> 我其實也有點記不得臉耶～</label> <!--錯誤連結 -->
+        <label class="option-label"><input type="radio" name="Q6" value="還好吧，應該沒有差很多吧"> 還好吧，應該沒有差很多吧</label> <!--錯誤連結 -->
+        <label class="option-label"><input type="radio" name="Q6" value="沒關係，我下次會記得報上名來"> 沒關係，我下次會記得報上名來</label> <!--錯誤連結 -->       
+        <label class="option-label"><input type="radio" name="Q6" value="其他"> 其他</label>
+      </div>
+
+      <label>請依下列句子，選擇你認同的程度（1～5）</label>
+      <div class="likert">
+        <!-- Likert 題從 Q16 開始 -->
+        <label>看完故事與體驗後，你是否更能想像臉盲者在人際互動中的焦慮？</label>
+        <div class="radio-group">
+          <label class="option-label"><input type="radio" name="Q7" value="1"> 1（非常不同意）</label>
+          <label class="option-label"><input type="radio" name="Q7" value="2"> 2</label>
+          <label class="option-label"><input type="radio" name="Q7" value="3"> 3</label>
+          <label class="option-label"><input type="radio" name="Q7" value="4"> 4</label>
+          <label class="option-label"><input type="radio" name="Q7" value="5"> 5（非常同意）</label>
+        </div>
+        <label>你是否仍會對認不得你的人感到受傷或有負面情緒？</label>
+        <div class="radio-group">
+          <label class="option-label"><input type="radio" name="Q8" value="1"> 1（非常不同意）</label>
+          <label class="option-label"><input type="radio" name="Q8" value="2"> 2</label>
+          <label class="option-label"><input type="radio" name="Q8" value="3"> 3</label>
+          <label class="option-label"><input type="radio" name="Q8" value="4"> 4</label>
+          <label class="option-label"><input type="radio" name="Q8" value="5"> 5（非常同意）</label>
+        </div>
+        <label>我相信臉盲症是真實存在的神經認知差異</label>
+        <div class="radio-group">
+          <label class="option-label"><input type="radio" name="Q9" value="1"> 1（非常不同意）</label>
+          <label class="option-label"><input type="radio" name="Q9" value="2"> 2</label>
+          <label class="option-label"><input type="radio" name="Q9" value="3"> 3</label>
+          <label class="option-label"><input type="radio" name="Q9" value="4"> 4</label>
+          <label class="option-label"><input type="radio" name="Q9" value="5"> 5（非常同意）</label>
+        </div>
+        <label>我覺得臉盲症和「看不出臉孔的情節」只存在於電影或小說裡</label>
+        <div class="radio-group">
+          <label class="option-label"><input type="radio" name="Q10" value="1"> 1（非常不同意）</label>
+          <label class="option-label"><input type="radio" name="Q10" value="2"> 2</label>
+          <label class="option-label"><input type="radio" name="Q10" value="3"> 3</label>
+          <label class="option-label"><input type="radio" name="Q10" value="4"> 4</label>
+          <label class="option-label"><input type="radio" name="Q109" value="5"> 5（非常同意）</label>
+        </div>
+        <label>我會不自覺對認不得我的人產生負面情緒（例如：覺得被忽視</label>
+        <div class="radio-group">
+          <label class="option-label"><input type="radio" name="Q11" value="1"> 1（非常不同意）</label>
+          <label class="option-label"><input type="radio" name="Q11" value="2"> 2</label>
+          <label class="option-label"><input type="radio" name="Q11" value="3"> 3</label>
+          <label class="option-label"><input type="radio" name="Q11" value="4"> 4</label>
+          <label class="option-label"><input type="radio" name="Q11" value="5"> 5（非常同意）</label>
+        </div>
+      <!-- 開放式題目 -->
+    <label>你覺得「忘記別人長相」這件事在日常生活中會帶來什麼困擾？</label>
+    <textarea name="Q12" rows="3"></textarea>
+    
+    <label>哪一段內容或互動最讓你印象深刻？</label>
+    <textarea name="Q13" rows="3"></textarea>
+
+    <label>這段經歷是否改變你對臉盲症的理解或態度？請簡述。</label>
+    <textarea name="Q14" rows="3"></textarea>
+
+    <label>其他建議與回饋</label>
+    <textarea name="Q15" rows="3"></textarea>
+
+        <!-- 送出按鈕 -->
+    <button type="submit">送出問卷</button>
+
+    </form>
+  </div>
+
+ <script type="module">
+    console.log("🔥 Firebase module script loaded");
+
+    // ① 從 CDN import Firebase App + Firestore
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // ② 把下面換成你自己的 config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcvdCI2S4to-z3PsqOhkdS-w85bXBJLPk",
+      authDomain: "face-pretest.firebaseapp.com",
+      projectId: "face-pretest",
+      storageBucket: "face-pretest.appspot.com",
+      messagingSenderId: "529428391860",
+      appId: "1:529428391860:web:3f18c27ab0e6178fc9f4e1"
+    };
+
+    // ③ 初始化
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+       // ② 取到新的 form
+    const form = document.getElementById("posttestForm");
+
+    // 預填 code
+    document.getElementById("codeInput").value = localStorage.getItem("participantCode") || "";
+
+    // ③ 更新「必填」驗證的欄位名稱
+    const requiredRadios = [
+      "Q1","Q2","Q3","Q6",
+      "Q7","Q8","Q9","Q10","Q11"
+    ];
+    const requiredCheckboxes = ["Q4","Q5"];
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) return form.reportValidity();
+
+      // 單選題必填
+      for (const name of requiredRadios) {
+        const radios = form.elements[name];
+        if (![...radios].some(r=>r.checked)) {
+          radios[0].scrollIntoView({behavior:"smooth",block:"center"});
+          return alert("請完成所有單選題！");
+        }
+      }
+      // 複選題必填
+      for (const name of requiredCheckboxes) {
+        const boxes = form.elements[name];
+        if (![...boxes].some(cb=>cb.checked)) {
+          boxes[0].scrollIntoView({behavior:"smooth",block:"center"});
+          return alert("請至少勾選一個「可複選」題目！");
+        }
+      }
+
+
+  // 驗證通過後，禁用按鈕並顯示送出中
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  submitBtn.textContent = '送出中…';
+
+      // ⑤ 把所有欄位打包
+      const fd = new FormData(form);
+
+      // ⑥ 組成 payload
+      const payload = {
+        // 取 participantCode 隱藏欄位
+        participantCode: fd.get("participantCode"),
+        submittedAt: serverTimestamp(),
+
+        // 認知改變
+        now_understand_core_issue:        fd.get("Q1"),
+        now_think_features_helpful:       fd.get("Q2"),
+        now_accept_cannot_recognize_parents: fd.get("Q3"),
+
+        // 偏見改變
+        misbeliefs_now_revised:           fd.getAll("Q4"),
+
+        // 同理感受
+        empathy_anxiety_score:            Number(fd.get("Q7")),
+        negative_emotion_toward_unrecognized: Number(fd.get("Q8")),
+
+        // 態度與認知變化
+        current_identification_methods:   fd.getAll("Q5"),
+        reaction_to_prosopagnosia_now:    fd.get("Q6"),
+
+        // 額外Likert題
+        believe_prosopagnosia_real:       Number(fd.get("Q9")),
+        believe_fiction_only:             Number(fd.get("Q10")),
+        negative_emotion_again:           Number(fd.get("Q11")),
+
+        // 開放式回饋
+        updated_view_on_troubles:         fd.get("Q12"),
+        most_impressive_content:          fd.get("Q13"),
+        reflection_on_understanding:      fd.get("Q14"),
+        other_feedback:                   fd.get("Q15"),
+      };
+
+      try {
+        // 寫入後測回應
+        await addDoc(collection(db, "posttestResponses"), payload);
+
+        // 清除 LocalStorage，並跳轉
+        localStorage.removeItem("participantCode");
+        location.href = "thanks.html";
+
+      } catch (err) {
+        alert("儲存失敗：" + err.message);
+        // 恢復按鈕
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送出後測';
+      }
+    });
+
+    //—— sparkles 互動效果 ——  
+    const shapes = ['shape-circle','shape-star','shape-diamond'];
+    const colors = ['#00ffe1','#ff33cc','#ffee00','#66ccff','#ffffff','#39ff14','#f72585'];
+    document.querySelectorAll(".option-label input").forEach(input => {
+      input.addEventListener("change", e => {
+        const label = e.target.closest("label");
+        label.classList.add("clicked");
+        setTimeout(()=> label.classList.remove("clicked"),200);
+        for (let i=0;i<12;i++){
+          const sparkle = document.createElement("span");
+          sparkle.classList.add('sparkle', shapes[Math.floor(Math.random()*shapes.length)]);
+          sparkle.style.setProperty('--x',`${(Math.random()-0.5)*250}px`);
+          sparkle.style.setProperty('--y',`${(Math.random()-0.5)*250}px`);
+          sparkle.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+          const dur = 300 + Math.random()*500;
+          sparkle.style.animationDuration = `${dur}ms`;
+          sparkle.style.width = sparkle.style.height = `${6+Math.random()*16}px`;
+          sparkle.style.opacity = `${0.5+Math.random()*0.5}`;
+          label.appendChild(sparkle);
+          setTimeout(()=> sparkle.remove(), dur+100);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
