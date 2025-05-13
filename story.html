@@ -65,7 +65,7 @@
     #story-role { background: linear-gradient(135deg, var(--color-pink-end), var(--color-pink-start)); }
     #story-performance { background: linear-gradient(135deg, var(--color-blue-end), var(--color-blue-start)); }
     #interactive { background: linear-gradient(135deg, var(--color-yellow-end), var(--color-yellow-start)); }
-    #resources { background: linear-gradient(135deg, var(--color-pink-start), var(--color-blue-start)); }
+    #posttest { background: linear-gradient(135deg, var(--color-yellow-start), var(--color-yellow-start)); }
     h2 { margin: 0.5rem 0; color: #333; }
     p { color: #555; line-height: 1.6; margin: 0.5rem 0 1.5rem; }
     button {
@@ -284,6 +284,7 @@
             width: 100%;
             aspect-ratio: 3 / 2;
             perspective: 1000px;
+            margin: 0 auto;
         }
 
         .flip-card-inner {
@@ -376,56 +377,189 @@
         main > section:not(#story-childhood-text) {
         height: calc(100vh - var(--header-height));
         }
+        .flip-card-inner {
+          transition: transform 0.6s;
+          transform-style: preserve-3d;
+        }
 
-    @media (max-width: 768px) {
-      header { height: 3.5rem; }
-      main > section { height: calc(100vh - 3.5rem); }
-      .section-content { padding: 1.5rem; width: 90%; }
-      h2 { font-size: 1.25rem; }
-      button { width: 100%; }
+        .flip-card:hover .flip-card-inner,
+        .flip-card.flipped .flip-card-inner {
+          transform: rotateY(180deg);
+        }
 
-        header {
-        flex-direction: column;  
-        align-items: center;      
-        height: auto;               
-        padding: 0.5rem 1rem;        
-        }
-        header h1 {
-            margin: 0.25rem 0;          
-            font-size: 1.1rem;           
-        }
-        nav {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;             
-            justify-content: center;     
-            gap: 0.4rem;                 
-        }
-        nav a {
-            font-size: 0.9rem;           
-            padding: 0.25rem 0.5rem;      
-        }
-        .face-module .faces {
-            flex-direction: row;     /* 直列排列 */
-            gap: 1rem;                  /* 拉大上下间距 */
-        }
-        .face-module .pixel-img {
-            width: 40%;                 /* 宽度占父层 90% */
-            max-width: none;            /* 取消任何上限 */
-        }
-        .card-grid {
-        grid-template-columns: 1fr;
-        }
-        #flip-card-section .card-grid {
-        grid-template-columns: 1fr;
-        padding: 0 1rem; /* 手機維持左右邊距 */
-        }
-          #flip-card-section {
+        #story-thanks {
         height: auto !important;
-        min-height: auto;
-        padding-bottom: 2rem;
+        background: var(--color-yellow-end); /* 背景色保持跟手機一致 */
+        padding: 2.5rem 1rem 5rem; /* 上內距 2.5rem、左右 1rem、下內距 5rem */
         }
-    }
+        /* 卡片內容區 */
+        #story-thanks .section-content {
+          max-width: 600px;
+          margin: 0 auto 2rem;     /* 底部再留 2rem，確保和 footer 有間隔 */
+          background: #fff;         /* 白卡底色 */
+          border-radius: 12px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+          padding: 2rem 1.5rem;     /* 卡片內部空間 */
+          text-align: center;
+        }
+
+@media (max-width: 768px) {
+  html, body {
+    scroll-snap-type: none !important;
+  }
+
+  main {
+    padding-top: 4.5rem;
+  }
+
+  main > section {
+    height: auto !important;
+    scroll-snap-align: none !important;
+    padding: 2rem 0;
+  }
+
+  #story-childhood-text,
+  #story-emotion,
+  #story-thanks,
+  #posttest {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  #story-emotion {
+    background: linear-gradient(135deg, var(--color-yellow-start), var(--color-yellow-end));
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  #story-emotion .section-content {
+    margin-bottom: 0;
+    padding-bottom: 2rem;
+  }
+
+  #story-thanks {
+    background: var(--color-yellow-end);
+    padding: 0;
+    margin: 0;
+  }
+
+  #story-thanks .section-content {
+    padding: 2rem 1rem 5rem; /* 上左右下，底部空間加大 */
+    margin-bottom: 0;
+  }
+
+
+  #posttest {
+    background: var(--color-yellow-end); /* 同樣單色 */
+    padding-top: 0;
+    padding-bottom: 3rem;
+    margin-top: 0;
+  }
+
+  #posttest .section-content {
+    margin-top: 0;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .section-content {
+    width: 90%;
+    padding: 1.5rem;
+    margin: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  header h1 {
+    margin: 0.25rem 0;
+    font-size: 1.1rem;
+  }
+
+  nav {
+    margin-top: -0.5rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  nav a {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .face-module .faces {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .face-module .pixel-img {
+    width: 40%;
+    max-width: none;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #flip-card-section .card-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  #flip-card-section {
+    height: auto !important;
+    min-height: auto;
+    padding-bottom: 2rem;
+  }
+  #posttest {
+    background: var(--color-yellow-end);
+    padding-top: 2rem;
+    padding-bottom: 6rem; /* ✅ 增加底部空間容納白卡圓角陰影 */
+    margin: 0;
+  }
+
+  #posttest .section-content {
+    max-width: none;
+    width: 90vw;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+
+
+}
+
+
 
   </style>
 </head>
@@ -493,7 +627,7 @@
         <label><input type="radio" name="same" value="yes">是</label>
         <label><input type="radio" name="same" value="no">否</label>
       </div>
-      <button id="revealBtn">長按看清原圖</button>
+      <button id="revealBtn">按一下看清原圖</button>
       <div id="feedback" class="feedback"></div>
     </div>
   </div>
@@ -503,10 +637,21 @@
         <section id="story-childhood-text">
         <div class="section-content story-text">
             <h2>表情對我來說，只是皺紋的改變</h2>
-            <p>我一直都看不太懂別人的臉。別人輕輕皺一下眉、嘴角微微下垂，這些對我來說只是臉上紋路的變化，看不出來背後藏著什麼情緒。</p>
-            <p>很多時候，我只能依靠語氣去判斷對方是在生氣還是開心，可是大人們的語氣都很平，特別是職場上，情緒常常被壓得死死的。結果就是，我老是踩到別人的線，卻完全不知道自己做錯了什麼。</p>
-            <p>朋友可能還會回頭問我一句：「你怎麼了？幹嘛不理我？」但更常遇到的，是那些什麼都沒說，卻在心裡默默給我貼上標籤的人──說我假裝熱情、不真誠，甚至說我演得很像。其實，我只是不知道那張臉現在是什麼意思，更不知道那個人是誰。</p>
-            <p>最痛苦的不是看不懂別人的表情，而是這個世界從來沒想過，有人就是看不懂。</p>
+              <p>
+              我一直都看不太懂別人的臉。<br>
+              別人輕輕皺一下眉、嘴角稍微下垂，對我來說只是臉上紋路的變化，很難從中看出情緒的線索。很多時候，我只能靠語氣來判斷對方是在生氣還是開心。</p>
+              <p>
+              但長大後，大家出於禮貌，往往語氣平穩──這讓我更無從判斷。<br>
+              尤其在職場裡，情緒被壓抑得更深，我總以為「沒生氣」就代表「沒事」，結果卻經常在不知不覺中踩雷。
+              </p>
+              <p>
+              朋友有時還會直接問我：「你怎麼了？幹嘛不理我？」<br>
+              但更多時候，是那些什麼都沒說，卻默默在心裡替我貼上標籤的人──說我假裝熱情、不真誠，甚至說我「演得很好」。<br>
+              其實我不是裝熟，也不是冷淡，我只是看不懂那張臉現在是什麼表情，更不知道那個人是誰。
+              </p>
+              <p>
+              對我來說，最難承受的不是看不懂，而是總被當成「故意不懂」的那些標籤。
+              </p>
         </div>
         </section>
                 <!-- 插入圖片對照 -->
@@ -522,19 +667,19 @@
     <section id="story-role">
         <div class="section-content">
             <h2>為什麼都不跟我打招呼？</h2>
-            <p>點選標籤幫我撕掉(小提示 可以努力多點幾次)</p>
+            <p>點選標籤幫我撕掉<br>(小提示 可以努力多點幾次)</p>
             <div id="tag-cloud">
             <!-- <span class="tag">冷淡</span> -->
             </div>
             <p id="real-message" style="display:none; font-style: italic; color: #444; text-align: center; margin-top: 1.5rem;">
-            我不是不在意，我真的只是認不得你，但有些標籤，永遠都在那.....
+            謝謝你，想讓你知道，我不是不在意，我真的只是無法一眼就認得你。但有些標籤，永遠都在那.....
             </p>
         </div>
     </section>
 
     <section id="story-performance">
         <div class="section-content">
-            <h2>社交，演算法式生活</h2>
+            <h2>社交，太容易得罪人...</h2>
             <p>刻意練習點頭、微笑，壓力不斷累積…</p>
             <p>點選亮起來的事件來與人互動</p>
                 <div style="text-align: center; margin-bottom: 1rem;">
@@ -564,7 +709,7 @@
 
     <section id="flip-card-section">
         <div class="section-content">
-        <h2 style="text-align:center; margin-bottom:1rem;">常見誤解 × 真實澄清</h2>
+        <h2 style="text-align:center; margin-bottom:1rem;">常見誤解 × 真實澄清<br>(手機操作請長按翻轉卡片)</h2>
         <div class="card-grid">
             <!-- 卡片 1 -->
             <div class="flip-card">
@@ -577,28 +722,28 @@
             <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">看久一點不就記住了？</div>
-                <div class="flip-card-back">我可以盯著一張臉看很久，還是不知道那是誰。看久不等於能辨認。</div>
+                <div class="flip-card-back">對於模糊不清的東西，看很久，還是不知道那是誰。看久不等於能辨認~。</div>
             </div>
             </div>
             <!-- 卡片 3 -->
             <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">怎麼連家人都不認得？</div>
-                <div class="flip-card-back">真的會這樣。有人換髮型、換眼鏡、穿不一樣，我可能就認不出來。</div>
+                <div class="flip-card-back">真的會這樣。有人換髮型、換眼鏡、穿不一樣，我可能就認不出來。甚至嚴重的，如果照片上有太多人，我連自己都會認不出來。</div>
             </div>
             </div>
             <!-- 卡片 4 -->
             <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">掛名牌就好了吧？</div>
-                <div class="flip-card-back">名字幫得了我記住身份，但記住名字和認臉，是兩回事。</div>
+                <div class="flip-card-back">名字幫得了我記住身份，但記住名字和認臉，是兩回事，我們更希望你們可以告訴我你是誰，這樣我就會想起跟你發生過的事情。</div>
             </div>
             </div>
             <!-- 卡片 5 -->
             <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">這不是病吧？只是比較不會認人</div>
-                <div class="flip-card-back">這是一種神經認知差異，當我知道有這個病名時，我終於放過自己。</div>
+                <div class="flip-card-back">這是一種神經認知差異，但是在台灣目前尚未被正式納入臨床診斷系統，也缺乏普遍的識別與支持機制。</div>
             </div>
             </div>
 
@@ -606,32 +751,55 @@
             <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">你是不是太冷淡、沒誠意？</div>
-                <div class="flip-card-back">我不是不在意，而是我看不出你是誰。有時我很努力演出反應，只為避免傷人。</div>
+                <div class="flip-card-back">我比你想的更在意你，就是因為知道我真的認不出來，有時我很努力演出反應，因為看到你們難過或失望，我也會對自己更加難過與失望。</div>
             </div>
             </div>
            </div> 
         </div>
     </section>
 
-    <section id="closing-message" class="section-content" style="margin-bottom:2rem;">
-            <h2>如果你看到這裡，謝謝你</h2>
-            <p>
-                其實，臉盲症並不是什麼了不起的大事，我們也不是在尋求特別的對待。<br>
-                只是希望，這個世界能多一點理解與空間，給那些真的有臉盲困擾的人。
-            </p>
-            <p>
-                在國外，臉盲症（Prosopagnosia）是能被正式診斷的神經認知差異，有些人甚至能拿到醫療證明。但在台灣，大多數人對這個詞仍感到陌生，甚至有時會被當成玩笑或誇張的自嘲。
-            </p>
-            <p>
-                我們希望透過這段體驗，讓你認識真正的臉盲症。<br>
-                下次當有人說「我真的有臉盲症」時，請不要立刻懷疑他是不是只是沒把你放在心上，也許，他真的只是努力了很多次，卻還是記不得你的臉。
-            </p>
-            <p style="font-weight: 600;">臉盲不是冷漠，而是一種看不見的障礙。希望你願意，給我們一點點包容。</p>
+    <section id="story-thanks">
+      <div class="section-content story-text">
+        <h2>如果你看到這裡，謝謝你</h2>
+          <p>
+          其實，臉盲症並不是什麼了不起的大事，我們也不是在尋求特別的對待。<br>
+          只是希望，這個世界能多一點理解與空間，給那些真的有臉盲困擾的人。
+          </p>
+
+          <p>
+          在國外，臉盲症（Prosopagnosia）是能被正式診斷的神經認知差異，有些人甚至能拿到醫療證明。<br>
+          但在台灣，大多數人對這個詞仍感到陌生，甚至有時會被當成玩笑或誇張的自嘲。
+          </p>
+
+          <p>
+          根據國際研究估計，臉盲症的盛行率約為 2%～2.5%。<br>
+          換句話說，平均每 40 到 50 人當中，就有一位可能患有不同程度的臉盲症。<br>
+          它其實比你想像的還常見，只是多數人從未察覺──更未被理解。
+          </p>
+
+          <p>
+          我們希望透過這段體驗，讓你認識真正的臉盲症。<br>
+          下次當有人說「我真的有臉盲症」時，請不要立刻懷疑他是不是只是沒把你放在心上，<br>
+          也許，他真的只是努力了很多次，卻還是記不得你的臉。
+          </p>
+
+          <p>
+          我們並不期待每個人都能完全理解臉盲的處境，也不是要大家絕對體諒。<br>
+          但至少，希望下次當你發現有人沒認出你時，能先給予一點善意，不急著判斷、責怪或揣測背後的動機。<br>
+          臉盲不等於冷漠、不等於不在乎，它只是一種不被看見的神經特質，需要的是更少的誤會，多一點空間。
+          </p>
+
+          <p style="font-weight: 600;">
+          臉盲不是冷漠，而是一種看不見的障礙。<br>
+          希望你願意，給我們一點點包容。
+          </p>
+          </div>
             </section>
 
         <section id="posttest">
         <div class="section-content">
-            <h2>感謝您的參與，最後再幫我做個問卷！</h2>
+            <h2>感謝參與，最後再幫我做個問卷~</h2>
+            <br>
             <!-- 新增這行 -->
             <button class="survey-btn" onclick="location.href='posttest.html'">
             填寫問卷&nbsp;&rarr;
@@ -664,27 +832,19 @@
     ];
 
     // 按下（開始長按）→ 換成清晰圖
-    btn.addEventListener('pointerdown', () => {
-    imgs.forEach(img => {
-        img.src = img.dataset.clear;
+    let isBlurred = true;
+    btn.addEventListener('click', () => {
+      isBlurred = !isBlurred;
+      imgs.forEach(img => {
+        img.src = isBlurred ? img.dataset.blur : img.dataset.clear;
+      });
     });
-    });
-
-    // 放開或游標移出按鈕 → 還原模糊圖
-    const upHandler = () => {
-    imgs.forEach(img => {
-        img.src = img.dataset.blur;
-    });
-    };
-        ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev =>
-        btn.addEventListener(ev, upHandler)
-        );
     // 4. 選項回饋
     document.querySelectorAll('input[name="same"]').forEach(r => {
         r.addEventListener('change', e => {
         const ans = e.target.value === 'yes' ? '正確！' : '錯誤！';
         document.getElementById('feedback').textContent =
-            ans + ' 對臉盲者來說，每一次看都像第一次。';
+            ans + ' 對臉盲者來說，如果他是個陌生人，那這兩個就是不同人了，我們會用髮型、服裝、身高、聲音、走路姿勢、飾品之類一切的東西去記得這個人，就只是看人臉會像是打上一層馬賽克。沒有辦法記住到底五官特徵是甚麼。';
         });
     });
     })();
@@ -802,6 +962,13 @@ buttons.forEach(btn => {
     startHighlightLoop();
     startButton.disabled = true;
     startButton.textContent = "互動進行中…";
+    });
+
+    // 點一下就翻轉卡片
+    document.querySelectorAll('.flip-card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
     });
 
 
